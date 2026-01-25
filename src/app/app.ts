@@ -1,12 +1,16 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, effect, inject } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { UserService } from './shared/services/user.service';
+import { HeaderComponent } from "./shared/components/header/header.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  standalone: true,
+  imports: [RouterOutlet, HeaderComponent],
+  templateUrl: './app.html'
 })
 export class App {
-  protected readonly title = signal('trail-tracker');
+
+  userService = inject(UserService);
+
 }
