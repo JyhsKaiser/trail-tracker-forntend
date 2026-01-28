@@ -43,10 +43,4 @@ Para que el frontend pueda comunicarse con la API y la base de datos, se recomie
 
 ### 2. Estructura de Carpetas
 
-Clonar ambos repositorios en la misma ubicación para respetar el contexto de construcción del orquestador:
-
-```bash
-Proyectos/
-├── trail-tracker-frontend/ (Este repositorio)
-└── trail-tracker-backend/  https://github.com/JyhsKaiser/trail-tracker-backend
-```
+Clonar ambos repositorios en la misma ubicación para respetar el contexto de construcción del orquestador
