@@ -2,9 +2,11 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideAppInitia
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors, withXsrfConfiguration } from '@angular/common/http';
 import { routes } from './app.routes';
-import { UserService } from './shared/services/user.service';
+
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { xsrfInterceptor } from './core/interceptors/xsrf.interceptor';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { AuthService } from './core/services/auth.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,17 +16,13 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([
         errorInterceptor,
-        xsrfInterceptor // 🛡️ Agregamos nuestro nuevo interceptor manual
+        xsrfInterceptor, // 🛡️ Agregamos nuestro nuevo interceptor manual
+        authInterceptor  // Tu nuevo gestor de tokens
       ])
-      // // 🛡️ Configuración automática de CSRF
-      // withXsrfConfiguration({
-      //   cookieName: 'XSRF-TOKEN',
-      //   headerName: 'X-XSRF-TOKEN',
-      // })
     ),
     provideAppInitializer(() => {
-      const userService = inject(UserService);
-      return userService.checkSession();
+      const authService = inject(AuthService);
+      return authService.checkSession();
     }),
   ]
 

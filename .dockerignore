@@ -1,0 +1,14 @@
+# Dependencias locales (Super pesado y puede causar conflictos)
+node_modules/
+
+# Carpeta de compilación local
+dist/
+.angular/
+
+# Logs y archivos de sistema
+npm-debug.log
+.git
+.gitignore
+.vscode/
+.editorconfig
+README.md

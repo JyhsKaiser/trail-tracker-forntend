@@ -1,16 +1,20 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { UserService } from '../../../shared/services/user.service';
+
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../../user/services/user.service';
+import { RouterLink } from '@angular/router';
+import { FooterComponent } from "../../../../shared/components/footter/footer.component";
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink, FooterComponent],
   templateUrl: './register.component.html'
 })
 export class RegisterComponent {
   private userService = inject(UserService);
+
   message = '';
 
   registerForm = new FormGroup({

@@ -1,0 +1,106 @@
+<div class="max-w-4xl mx-auto space-y-10 animate-in fade-in slide-in-from-top-4 duration-700">
+
+  <div class="relative overflow-hidden bg-slate-900 border border-slate-800 rounded-[3rem] p-8 lg:p-12 shadow-2xl">
+    <div class="absolute -right-20 -top-20 h-64 w-64 bg-emerald-500/10 rounded-full blur-3xl"></div>
+
+    <div class="relative z-10 flex flex-col md:flex-row items-center gap-8">
+      <div class="relative group">
+        <div
+          class="w-32 h-32 rounded-3xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-5xl font-black text-slate-950 shadow-2xl rotate-3 group-hover:rotate-0 transition-transform duration-500">
+          {{ authService.currentUser()?.username?.charAt(0)?.toUpperCase() }}
+        </div>
+        <div class="absolute -bottom-2 -right-2 bg-slate-950 p-2 rounded-xl border border-slate-800 text-xl">🏔️</div>
+      </div>
+
+      <div class="text-center md:text-left flex-1">
+        <h2 class="text-4xl font-black text-white tracking-tighter uppercase italic">
+          {{ authService.currentUser()?.username }}
+        </h2>
+        <p class="text-emerald-500 font-bold text-sm tracking-[0.2em] mt-1">
+          INGENIERO DE SOFTWARE | ADEM
+        </p>
+        <div class="mt-4 flex flex-wrap justify-center md:justify-start gap-3">
+          <span class="px-4 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-xs text-slate-300">
+            🎓 Software Engineering Student
+          </span>
+          <span class="px-4 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-xs text-slate-300">
+            🏛️ UAEM
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-slate-900/40 border border-slate-800 rounded-[2.5rem] p-8 lg:p-10">
+    <div class="flex justify-between items-center mb-10">
+      <h3 class="text-xl font-black text-white uppercase tracking-widest italic">Información <span
+          class="text-emerald-500">Personal</span></h3>
+      <button (click)="toggleEdit()"
+        class="px-5 py-2 rounded-xl border border-slate-700 text-xs font-bold hover:bg-slate-800 transition-all">
+        {{ isEditing() ? 'CANCELAR' : 'EDITAR PERFIL' }}
+      </button>
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="space-y-2">
+        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Nombre de Usuario</label>
+        <div class="relative">
+          <input type="text" [value]="authService.currentUser()?.username" readonly
+            class="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-5 py-4 text-slate-400 cursor-not-allowed">
+          <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs">🔒</span>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Correo Electrónico</label>
+        <input type="email" formControlName="email" [readonly]="!isEditing()"
+          class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-emerald-500 transition-all disabled:opacity-50">
+      </div>
+      @if (isEditing()) {
+      <div class="md:col-span-2 pt-4 flex justify-end">
+        <button type="submit" [disabled]="profileForm.invalid"
+          class="bg-emerald-500 text-slate-950 px-10 py-4 rounded-2xl font-black text-sm hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20 active:scale-95">
+          GUARDAR CAMBIOS
+        </button>
+      </div>
+      }
+    </form>
+  </div>
+
+</div>
+
+<div class="bg-slate-900/40 border border-slate-800 rounded-[2.5rem] p-8 mt-6">
+  <h3 class="text-xl font-black text-white uppercase tracking-widest italic mb-6">
+    Seguridad <span class="text-emerald-500">de la Cuenta</span>
+  </h3>
+
+  <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="space-y-2">
+      <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Contraseña Actual</label>
+      <input type="password" formControlName="currentPassword"
+        class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-5 py-4 text-white focus:border-emerald-500 outline-none">
+    </div>
+
+    <div class="space-y-2">
+      <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Nueva Contraseña</label>
+      <input type="password" formControlName="newPassword"
+        class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-5 py-4 text-white focus:border-emerald-500 outline-none">
+    </div>
+
+    <div class="space-y-2">
+      <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Confirmar Nueva</label>
+      <input type="password" formControlName="confirmPassword"
+        class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-5 py-4 text-white focus:border-emerald-500 outline-none">
+    </div>
+
+    <div class="md:col-span-3 flex justify-end">
+      <button type="submit" [disabled]="passwordForm.invalid"
+        class="bg-slate-100 text-slate-950 px-8 py-3 rounded-xl font-black text-xs hover:bg-emerald-500 transition-all">
+        ACTUALIZAR CREDENCIALES
+      </button>
+
+    </div>
+
+  </form>
+</div>
+<!-- <app-footer class=""></app-footer> -->

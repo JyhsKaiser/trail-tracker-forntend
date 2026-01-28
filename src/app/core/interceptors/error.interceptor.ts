@@ -2,23 +2,51 @@ import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
-import { UserService } from '../../shared/services/user.service';
+
+import { AuthService } from '../services/auth.service';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
-  const userService = inject(UserService);
+  const authService = inject(AuthService);
+  // Imagina que tienes un servicio de notificaciones tipo Toast o Alert
+  // const toast = inject(ToastService);
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      // Si el servidor nos dice que no estamos autorizados (Cookie inválida/expirada)
-      if (error.status === 401) {
-        userService.currentUser.set(null); // Limpiamos la Signal
-        router.navigate(['/auth/login']);
+
+      // 1. Ignorar Auth (Ya lo manejamos en el servicio)
+      if (req.url.includes('/api/auth/')) {
+        return throwError(() => error);
       }
 
-      // Podrías manejar errores 500 o 403 aquí también
-      const errorMessage = error.error?.message || 'Ocurrió un error inesperado';
-      console.error('🔴 Error Global:', errorMessage);
+      switch (error.status) {
+        case 400:
+          // Error de Negocio: El usuario hizo algo mal.
+          console.warn('Petición incorrecta:', error.error?.message);
+          // toast.show("Revisa los datos ingresados");
+          break;
+
+        case 401:
+        case 403:
+          // Sesión expirada
+          authService.currentUser.set(null);
+          router.navigate(['/auth/login']);
+          break;
+
+        case 404:
+          // Recurso no encontrado
+          console.error('No se encontró el recurso');
+          break;
+
+        case 500:
+          // Error de Servidor: Algo explotó en Java.
+          console.error('🔥 Error Crítico en Servidor:', error.error);
+          // toast.show("Lo sentimos, hay problemas en el servidor");
+          break;
+
+        default:
+          console.error('Error no controlado:', error.statusText);
+      }
 
       return throwError(() => error);
     })

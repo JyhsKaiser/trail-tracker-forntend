@@ -1,22 +1,30 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { UserService } from '../../shared/services/user.service';
-import { map, take } from 'rxjs';
 
-export const authGuard: CanActivateFn = (route, state) => {
-  const userService = inject(UserService);
+
+import { AuthService } from '../services/auth.service';
+
+// 🛡️ Guard para rutas protegidas (Dashboard, Perfil...)
+export const isAuthenticatedGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
   const router = inject(Router);
 
-  // Si ya terminamos de verificar la sesión previamente
-  if (userService.authStatusFinished()) {
-    return userService.currentUser() ? true : router.createUrlTree(['/auth/login']);
+  if (authService.currentUser()) return true;
+
+  router.navigate(['/login']);
+  return false;
+};
+
+// 🚫 Guard para rutas públicas (Login, Register)
+export const isPublicGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  // Si ya tiene sesión, mándalo al dashboard
+  if (authService.currentUser()) {
+    router.navigate(['/dashboard']); // O tu ruta principal
+    return false;
   }
 
-  // Si es la primera vez (F5), esperamos a que el servicio responda
-  return userService.checkSession().pipe(
-    map(user => {
-      if (user) return true;
-      return router.createUrlTree(['/auth/login']);
-    })
-  );
+  return true;
 };

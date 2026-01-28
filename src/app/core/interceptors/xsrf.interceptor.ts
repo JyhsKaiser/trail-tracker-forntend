@@ -8,7 +8,7 @@ export const xsrfInterceptor: HttpInterceptorFn = (req, next) => {
   const token = xsrfCookie ? xsrfCookie.split('=')[1] : null;
 
   // 2. Si existe el token y la petición es para nuestra API, lo inyectamos
-  if (token && (req.method === 'POST' || req.method === 'PUT' || req.method === 'DELETE')) {
+  if (token && (req.method === 'POST' || req.method === 'PUT' || req.method === 'DELETE' || req.method === 'PATCH')) {
     req = req.clone({
       headers: req.headers.set('X-XSRF-TOKEN', token)
     });

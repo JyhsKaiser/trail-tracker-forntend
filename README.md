@@ -1,59 +1,53 @@
-# TrailTracker
+# 🥾 Trail Tracker Web - UI Interface (Angular 21)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.3.
+Interfaz de usuario de alto rendimiento diseñada para una experiencia inmersiva en el rastreo de senderos. Este cliente utiliza las últimas capacidades de **Angular 21** junto con **Tailwind CSS** para ofrecer una aplicación rápida, segura y estéticamente premium.
 
-## Development server
+🔗 **Repositorio Backend:** [Enlace a tu repo de Spring Boot aquí]
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## 🎨 Diseño y Experiencia de Usuario (UI/UX)
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **Premium Dark UI:** Estética "Dark Mode" moderna basada en una paleta de colores esmeralda y pizarra para reducir la fatiga visual y mejorar la legibilidad.
+- **Tailwind CSS:** Implementación de diseño basado en utilidades que garantiza un sistema de estilos consistente, ligero y fácil de mantener.
+- **Responsividad Total:** Arquitectura _Mobile-First_ que garantiza una visualización fluida desde smartphones hasta pantallas de escritorio de gran formato.
+- **Interacciones Fluidas:** Uso de micro-animaciones y estados de carga dinámicos para proporcionar un feedback constante al usuario.
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## ✨ Fortalezas Técnicas
 
-```bash
-ng generate component component-name
-```
+- **Angular 21 (Modern Core):** Implementación completa de **Standalone Components** y el nuevo **Control Flow** nativo (`@if`, `@for`) para un código más limpio.
+- **Estado Reactivo (Signals):** Uso de **Angular Signals** para una detección de cambios de grano fino, optimizando el rendimiento y la gestión global del estado del usuario.
+- **Seguridad Integrada:**
+  - **XSRF Interceptor:** Interceptor especializado que gestiona automáticamente los tokens de seguridad para peticiones `PATCH` y `POST`.
+  - **AuthGuards:** Protección de rutas a nivel de cliente para prevenir accesos no autorizados a paneles privados.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+## 🚢 Dockerización y Despliegue
 
-## Building
+- **Nginx Server:** El contenedor Docker utiliza **Nginx** configurado específicamente para manejar el enrutamiento de Single Page Applications (SPA), evitando errores 404 al recargar rutas.
+- **Multi-stage Build:** Proceso de construcción que separa la instalación de dependencias y compilación (Node.js) de la entrega final (Nginx), garantizando una imagen de producción ligera y segura.
+- **Puerto:** Expuesto por defecto en el puerto 4200 (mapeado al 80 interno del contenedor) para facilitar el acceso local.
 
-To build the project run:
+---
 
-```bash
-ng build
-```
+## 🚀 Instrucciones de Levantamiento (Ecosistema Completo)
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Para que el frontend pueda comunicarse con la API y la base de datos, se recomienda utilizar la orquestación de Docker.
 
-## Running unit tests
+### 1. Requisitos Previos
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+- **Docker Desktop** instalado y en ejecución.
+- **Git** para clonar el proyecto.
 
-```bash
-ng test
-```
+### 2. Estructura de Carpetas
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+Clonar ambos repositorios en la misma ubicación para respetar el contexto de construcción del orquestador:
 
 ```bash
-ng e2e
+Proyectos/
+├── trail-tracker-frontend/ (Este repositorio)
+└── trail-tracker-backend/  https://github.com/JyhsKaiser/trail-tracker-backend
 ```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

@@ -1,0 +1,162 @@
+<div class="space-y-6 pb-20">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div>
+      <h2 class="text-3xl font-black text-white tracking-tight">MI <span class="text-emerald-500">BITÁCORA</span></h2>
+      <p class="text-slate-400 text-sm">Gestiona tus rutas y registros de entrenamiento.</p>
+    </div>
+    <button (click)="openAddModal()"
+      class="w-full sm:w-auto px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-95">
+      <span>➕</span> Registrar Carrera
+    </button>
+  </div>
+  @if (runs().length === 0) {
+
+  <div
+    class="flex flex-col items-center justify-center p-12 border-2 border-dashed border-slate-800 rounded-3xl bg-slate-900/20">
+    <span class="text-6xl mb-4">🏃‍♂️</span>
+    <h3 class="text-xl font-bold text-white">Aún no hay rutas registradas</h3>
+    <p class="text-slate-500 mb-6">Tus conquistas en la montaña aparecerán aquí.</p>
+    <button (click)="openAddModal()" class="text-emerald-400 hover:text-emerald-300 font-bold underline">Empieza hoy
+      mismo</button>
+  </div>
+  }
+  @if (runs().length > 0) {
+  <div>
+
+    <div class="hidden md:block overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/40 backdrop-blur-md">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="bg-slate-800/40 text-slate-400 text-xs uppercase tracking-[0.2em] font-black">
+            <th class="p-5">Nombre de la Ruta</th>
+            <th class="p-5">Distancia</th>
+            <th class="p-5">Elevación</th>
+            <th class="p-5">Fecha</th>
+            <th class="p-5 text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/50">
+          @for (run of runs(); track $index) {
+
+          <tr class="hover:bg-emerald-500/5 transition-all group" [id]="'run-' + run.id">
+            <td class="p-5 font-bold text-white group-hover:text-emerald-400 transition-colors">{{ run.name }}</td>
+            <td class="p-5 font-mono text-emerald-400 font-bold">{{ run.distanceKm }} <span
+                class="text-[10px] text-slate-500">KM</span></td>
+            <td class="p-5 font-mono text-sky-400 font-bold">{{ run.elevationGain }} <span
+                class="text-[10px] text-slate-500">M</span></td>
+            <td class="p-5 text-slate-400 text-sm italic">{{ run.date | date:'longDate' }}</td>
+            <td class="p-5">
+              <div class="flex justify-center gap-3">
+                <button (click)="openEditModal(run)"
+                  class="p-2 hover:bg-slate-800 rounded-lg text-slate-500 hover:text-white transition-all">✏️</button>
+                <button (click)="onDelete(run.id)"
+                  class="p-2 hover:bg-red-500/10 rounded-lg text-slate-500 hover:text-red-500 transition-all">🗑️</button>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:hidden">
+      @for (run of runs(); track $index) {
+      <div
+        class="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
+        <div class="flex justify-between items-start">
+          <div class="max-w-[70%]">
+            <h3 class="font-black text-white text-xl leading-tight truncate">{{ run.name }}</h3>
+            <p class="text-xs text-slate-500 mt-1 uppercase tracking-wider font-bold">{{ run.date | date:'mediumDate' }}
+            </p>
+          </div>
+          <!-- AQUI AGREGAMOS EL NUEVO BOTON -->
+          <button (click)="openEditModal(run)"
+            class="p-2 hover:bg-slate-800 rounded-lg text-slate-500 hover:text-white transition-all">✏️ Editar</button>
+          <button (click)="onDelete(run.id)"
+            class="p-2 text-red-500/50 hover:text-red-500 bg-red-500/5 rounded-full">🗑️ Eliminar</button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="bg-slate-800/30 p-4 rounded-2xl border border-slate-700/30">
+            <p class="text-[10px] text-slate-500 uppercase font-black tracking-widest mb-1">Distancia</p>
+            <p class="text-emerald-400 font-black text-2xl">{{ run.distanceKm }}<span
+                class="text-xs ml-1 text-slate-500">km</span></p>
+          </div>
+          <div class="bg-slate-800/30 p-4 rounded-2xl border border-slate-700/30">
+            <p class="text-[10px] text-slate-500 uppercase font-black tracking-widest mb-1">Elevación</p>
+            <p class="text-sky-400 font-black text-2xl">{{ run.elevationGain }}<span
+                class="text-xs ml-1 text-slate-500">m</span></p>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+  </div>
+  }
+</div>
+
+
+<!-- MODAL -->
+@if (isModalOpen()) {
+<div class="fixed inset-0 z-[60] flex items-center justify-center p-4">
+
+  <div (click)="closeModal()" class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+
+  <div
+    class="relative bg-slate-900 border border-slate-800 w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+
+    <div class="p-8">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-2xl font-black text-white italic">
+          {{ selectedRunId() ? 'EDITAR' : 'NUEVA' }} <span class="text-emerald-500">CONQUISTA</span>
+        </h3>
+        <button (click)="closeModal()" class="text-slate-500 hover:text-white">✕</button>
+      </div>
+
+      <form [formGroup]="runForm" (ngSubmit)="onSubmit()" (submit)="$event.preventDefault()" class="space-y-5">
+
+        <div>
+          <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Nombre de la
+            Ruta</label>
+          <input type="text" formControlName="name" placeholder="Ej. Cumbre del Ajusco"
+            class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition-all">
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Distancia
+              (KM)</label>
+            <input type="number" formControlName="distanceKm" placeholder="0.0"
+              class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition-all">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Desnivel
+              (+m)</label>
+            <input type="number" formControlName="elevationGain" placeholder="0" [value]="0"
+              class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition-all">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Fecha de
+            actividad</label>
+          <input type="date" formControlName="date"
+            class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-emerald-500 transition-all">
+        </div>
+
+        <div class="flex gap-3 pt-4">
+          <button type="button" (click)="closeModal()"
+            class="flex-1 py-4 text-sm font-bold text-slate-400 hover:text-white transition-colors">
+            Cancelar
+          </button>
+          <button type="submit" [disabled]="runForm.invalid"
+            class="flex-[2] py-4 bg-emerald-500 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-emerald-600 text-slate-950 font-black rounded-2xl transition-all shadow-lg shadow-emerald-500/20">
+            GUARDAR REGISTRO
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+}
+<app-footer></app-footer>
