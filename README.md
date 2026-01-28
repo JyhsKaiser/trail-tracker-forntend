@@ -2,8 +2,7 @@
 
 Interfaz de usuario de alto rendimiento diseñada para una experiencia inmersiva en el rastreo de senderos. Este cliente utiliza las últimas capacidades de **Angular 21** junto con **Tailwind CSS** para ofrecer una aplicación rápida, segura y estéticamente premium.
 
-🔗 **Repositorio Backend:** [Enlace a tu repo de Spring Boot aquí]
-
+🔗 **Repositorio Backend:** https://github.com/JyhsKaiser/trail-tracker-backend
 ---
 
 ## 🎨 Diseño y Experiencia de Usuario (UI/UX)
