@@ -5,11 +5,13 @@ import { Subject, switchMap, startWith, catchError, of, combineLatest, tap, Obse
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class TrainingService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/runs';
+  private readonly API_URL = `${environment.apiUrl}/runs`;
+
   // private userService = inject(UserService); // Inyectamos el servicio de usuario
   private authService = inject(AuthService)
   // Este "gatillo" nos servirá para refrescar la lista
@@ -26,7 +28,7 @@ export class TrainingService {
         if (!user) return of([] as Run[]);
 
         // Si hay usuario, pedimos sus carreras
-        return this.http.get<Run[]>(this.apiUrl, { withCredentials: true }).pipe(
+        return this.http.get<Run[]>(this.API_URL, { withCredentials: true }).pipe(
           catchError(() => of([] as Run[]))
         );
       }),
@@ -36,19 +38,19 @@ export class TrainingService {
   );
 
   saveRun(run: Run): Observable<Run> {
-    return this.http.post<Run>(this.apiUrl, run, { withCredentials: true }).pipe(
+    return this.http.post<Run>(this.API_URL, run, { withCredentials: true }).pipe(
       tap(() => this.refreshTrigger.update(v => v + 1))
     );
   }
 
   updateRun(id: number, run: Run): Observable<Run> {
-    return this.http.patch<Run>(`${this.apiUrl}/${id}`, run, { withCredentials: true }).pipe(
+    return this.http.patch<Run>(`${this.API_URL}/${id}`, run, { withCredentials: true }).pipe(
       tap(() => this.refreshTrigger.update(v => v + 1))
     );
   }
 
   deleteRun(id: number) {
-    return this.http.delete(`${this.apiUrl}/${id}`, { withCredentials: true }).subscribe({
+    return this.http.delete(`${this.API_URL}/${id}`, { withCredentials: true }).subscribe({
       next: () => {
         this.refreshTrigger.update(v => v + 1);
       }

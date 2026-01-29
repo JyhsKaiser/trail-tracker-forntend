@@ -4,6 +4,7 @@ import { catchError, finalize, Observable, of, switchMap, tap } from 'rxjs';
 import { User } from '../../features/user/models/user.model';
 import { Router } from '@angular/router';
 import { Credenciales } from '../../features/auth/models/credenciales.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -11,8 +12,7 @@ export class AuthService {
   authStatusFinished = signal(false);
   router = inject(Router);
   private http = inject(HttpClient);
-  private readonly AUTH_URL = 'http://localhost:8080/api/auth';
-
+  private readonly AUTH_URL = `${environment.apiUrl}/auth`;
   // ... otros métodos (login, logout)
 
   refreshToken() {
