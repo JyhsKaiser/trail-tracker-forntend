@@ -55,6 +55,7 @@ export class LogbookComponent {
 
   closeModal() {
     this.isModalOpen.set(false);
+    this.selectedRunId.set(null);
   }
 
   onSubmit() {
