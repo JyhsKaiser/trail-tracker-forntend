@@ -17,9 +17,13 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([
         errorInterceptor,
-        xsrfInterceptor, // 🛡️ Agregamos nuestro nuevo interceptor manual
+        // xsrfInterceptor, // 🛡️ Agregamos nuestro nuevo interceptor manual
         authInterceptor  // Tu nuevo gestor de tokens
-      ])
+      ]),
+      withXsrfConfiguration({
+        cookieName: 'XSRF-TOKEN',
+        headerName: 'X-XSRF-TOKEN',
+      })
     ),
     provideAppInitializer(() => {
       const authService = inject(AuthService);
