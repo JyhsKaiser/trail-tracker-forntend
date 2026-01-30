@@ -52,21 +52,6 @@ export class AuthService {
     );
   }
 
-  // Método de Logout (el servidor debe borrar la cookie)
-  // logout() {
-  //   return this.http.post(`${this.AUTH_URL}/logout`, {}, { withCredentials: true })
-  //     .subscribe({
-  //       next: () => {
-  //         // Limpiamos el estado local
-  //         this.currentUser.set(null);
-
-  //         // Redirigimos al Login
-  //         this.router.navigate(['/auth/login']);
-  //         // localStorage.setItem('user', '');
-  //       },
-  //       error: (err) => console.error('Error al cerrar sesión', err)
-  //     });
-  // }
 
   logout() {
     this.http.post(`${this.AUTH_URL}/logout`, {}, { withCredentials: true })

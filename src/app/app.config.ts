@@ -7,6 +7,7 @@ import { errorInterceptor } from './core/interceptors/error.interceptor';
 // import { xsrfInterceptor } from './core/interceptors/xsrf.interceptor';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { AuthService } from './core/services/auth.service';
+import { xsrfInterceptor } from './core/interceptors/xsrf.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,7 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([
         errorInterceptor,
-        // xsrfInterceptor, // 🛡️ Agregamos nuestro nuevo interceptor manual
+        xsrfInterceptor, // 🛡️ Agregamos nuestro nuevo interceptor manual
         authInterceptor  // Tu nuevo gestor de tokens
       ])
     ),
