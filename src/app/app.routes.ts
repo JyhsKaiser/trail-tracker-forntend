@@ -67,6 +67,13 @@ export const routes: Routes = [
   // ==========================================
   // 🚩 COMODINES Y REDIRECCIONES GLOBALES
   // ==========================================
+  {
+    path: 'forbidden',
+    loadComponent: () => import('./core/components/errors/error-403/error-403.component')
+      .then(m => m.Error403Component)
+  },
+  // Captura cualquier ruta no permitida por los Guards de seguridad
+  { path: '403', redirectTo: '/forbidden' },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**', redirectTo: 'auth/login' }
 ];

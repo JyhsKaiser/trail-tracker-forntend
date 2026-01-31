@@ -17,6 +17,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       if (req.url.includes('/api/auth/')) {
         if (error.status === 403) {
           console.error("❌ Error de CSRF o Permisos en Auth. Revisa headers y cookies.");
+          // router.navigate(['/403'])
         }
         return throwError(() => error);
       }

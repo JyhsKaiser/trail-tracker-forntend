@@ -1,0 +1,44 @@
+<div class="min-h-screen flex items-center justify-center bg-slate-950 p-6 relative overflow-hidden">
+  <div class="absolute -left-20 -top-20 h-96 w-96 bg-rose-500/10 rounded-full blur-[120px]"></div>
+  <div class="absolute -right-20 -bottom-20 h-96 w-96 bg-emerald-500/10 rounded-full blur-[120px]"></div>
+
+  <div class="w-full max-w-lg z-10 text-center animate-in fade-in zoom-in duration-500">
+    <div
+      class="mb-6 inline-flex items-center justify-center w-24 h-24 rounded-full bg-rose-500/10 border border-rose-500/20 shadow-2xl shadow-rose-500/20">
+      <span class="text-5xl">🚫</span>
+    </div>
+
+    <h1 class="text-8xl font-black text-white italic tracking-tighter mb-2">
+      403
+    </h1>
+    <h2 class="text-2xl font-bold text-emerald-500 uppercase tracking-widest mb-4">
+      Acceso Restringido
+    </h2>
+
+    <div class="bg-slate-900/50 border border-slate-800 p-8 rounded-[2.5rem] shadow-2xl backdrop-blur-xl mb-8">
+      <p class="text-slate-400 text-lg leading-relaxed">
+        Lo sentimos, explorador. No tienes los permisos necesarios para recorrer esta ruta.
+        <span class="block mt-2 text-sm text-slate-500 italic">Si crees que esto es un error, contacta al administrador
+          del sistema.</span>
+      </p>
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <button routerLink="/dashboard"
+        class="px-8 py-4 bg-emerald-500 text-slate-950 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20 active:scale-95">
+        VOLVER AL TABLERO
+      </button>
+
+      <button (click)="logout()"
+        class="px-8 py-4 bg-slate-900 text-white border border-slate-800 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95">
+        CERRAR SESIÓN
+      </button>
+    </div>
+
+    <div class="mt-12">
+      <p class="text-slate-600 text-[10px] font-black uppercase tracking-[0.4em]">
+        Trail Tracker <span class="text-rose-500">Security Core</span>
+      </p>
+    </div>
+  </div>
+</div>
